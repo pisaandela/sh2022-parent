@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.dao.RoomMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.model.Room">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="address_id" jdbcType="BIGINT" property="addressId" />
+    <result column="room_no" jdbcType="VARCHAR" property="roomNo" />
+    <result column="user_count" jdbcType="INTEGER" property="userCount" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+    <select id="getRoomList" resultType="com.company.project.model.RoomDto">
+      select ta.id addressId ,ta.sort, ta.address_no addressNo, ta.build_no buildNo, ta.floor_no floorNo, tr.id roomIo, tr.room_no roomNo
+      from t_address ta
+             left join t_room tr on ta.id = tr.address_id
+      where tr.id is not null
+      order by ta.sort,ta.build_no
+    </select>
+</mapper>

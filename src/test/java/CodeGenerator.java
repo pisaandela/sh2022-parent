@@ -1,3 +1,4 @@
+import cn.hutool.core.util.StrUtil;
 import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateExceptionHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -35,9 +36,12 @@ public class CodeGenerator {
 
     private static final String AUTHOR = "CodeGenerator";//@author
     private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());//@date
+    private static final Boolean DAO_FLAG = true;
+    private static final Boolean SERVICE_FLAG = false;
+    private static final Boolean CONTROLLER_FLAG = false;
 
     public static void main(String[] args) {
-        genCode("输入表名");
+        genCode("输入表名");//t_address
         //genCodeByCustomModelName("输入表名","输入自定义Model名称");
     }
 
@@ -47,8 +51,10 @@ public class CodeGenerator {
      * @param tableNames 数据表名称...
      */
     public static void genCode(String... tableNames) {
+        String pre = "t_";
         for (String tableName : tableNames) {
-            genCodeByCustomModelName(tableName, null);
+            String entityName = StrUtil.upperFirst(StrUtil.toCamelCase(StrUtil.removePreAndLowerFirst(tableName.toLowerCase(), pre)));//实体类名称
+            genCodeByCustomModelName(tableName, entityName);
         }
     }
 
@@ -59,11 +65,16 @@ public class CodeGenerator {
      * @param modelName 自定义的 Model 名称
      */
     public static void genCodeByCustomModelName(String tableName, String modelName) {
-        genModelAndMapper(tableName, modelName);
-        genService(tableName, modelName);
-        genController(tableName, modelName);
+        if (DAO_FLAG) {
+            genModelAndMapper(tableName, modelName);
+        }
+        if (SERVICE_FLAG) {
+            genService(tableName, modelName);
+        }
+        if (CONTROLLER_FLAG) {
+            genController(tableName, modelName);
+        }
     }
-
 
     public static void genModelAndMapper(String tableName, String modelName) {
         Context context = new Context(ModelType.FLAT);
@@ -102,7 +113,7 @@ public class CodeGenerator {
 
         TableConfiguration tableConfiguration = new TableConfiguration(context);
         tableConfiguration.setTableName(tableName);
-        if (StringUtils.isNotEmpty(modelName))tableConfiguration.setDomainObjectName(modelName);
+        if (StringUtils.isNotEmpty(modelName)) tableConfiguration.setDomainObjectName(modelName);
         tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));
         context.addTableConfiguration(tableConfiguration);
 
@@ -180,8 +191,8 @@ public class CodeGenerator {
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
-            //cfg.getTemplate("controller-restful.ftl").process(data, new FileWriter(file));
-            cfg.getTemplate("controller.ftl").process(data, new FileWriter(file));
+            cfg.getTemplate("controller-restful.ftl").process(data, new FileWriter(file));
+            //cfg.getTemplate("controller.ftl").process(data, new FileWriter(file));
 
             System.out.println(modelNameUpperCamel + "Controller.java 生成成功");
         } catch (Exception e) {
