@@ -43,3 +43,10 @@ Spring Boot API Project Seed 是一个基于Spring Boot & MyBatis的种子项目
 
 ## License
 无，纯粹开源分享，感谢大家 [Star](https://github.com/lihengming/spring-boot-api-project-seed/stargazers) & [Fork](https://github.com/lihengming/spring-boot-api-project-seed/network/members) 的支持。
+
+
+
+## 用法
+1. 访问：http://localhost:8081/group/importExcelData，成功后得到团购的group结果数据，取`groupNo`用于接下来的url访问
+2. 访问：http://localhost:8081/order/getByGroupNo/{groupNo}
+3. 找到目录下对应的文件`D:\\develop\\workspace\\template\\`
