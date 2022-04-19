@@ -65,7 +65,6 @@ public class OrderController {
     }
 
 
-
     @GetMapping("/getByProductNo/{productNo}")
     public Result getByProductNo(@PathVariable String productNo) {
         List<OrderVo> list = orderService.getByProductNo(productNo);
