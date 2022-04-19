@@ -8,6 +8,7 @@ import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.company.project.core.AbstractService;
+import com.company.project.core.ProjectConstant;
 import com.company.project.dao.OrderMapper;
 import com.company.project.model.*;
 import com.company.project.service.*;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * Created by chenZiMing on 2022/04/16.
+ * Created by author on 2022/04/16.
  */
 @Service
 @Transactional
@@ -39,9 +41,6 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
     private UserService userService;
     @Resource
     private RoomService roomService;
-
-    @Value("${excel.parent.path}")
-    private String parentPath;
 
     @Override
     public void importList() {
@@ -69,8 +68,8 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importExcelOrderData(String filePath, Group group) {
-        ExcelReader reader = ExcelUtil.getReader(FileUtil.file(filePath), 2);
+    public void importExcelOrderData(String filePath, Group group, Integer index) {
+        ExcelReader reader = ExcelUtil.getReader(FileUtil.file(filePath), index);
         List<OrderImportDto> orderList = reader.readAll(OrderImportDto.class);
         List<Order> orders = Lists.newArrayList();
         // 根据团购订单编号找到商品集合
@@ -89,6 +88,7 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
             String floorNo = dto.getFloorNo();
             String roomNo = dto.getRoomNo();
             String userName = dto.getUserName();
+            //String productName = StrUtil.sub(dto.getProductName(),0,StrUtil.indexOf(dto.getProductName(),'('));
             String productName = dto.getProductName();
             String productNo = productMap.get(productName).getProductNo();
             String orderNo = dto.getOrderNo();
@@ -115,26 +115,23 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
 
     @Override
     public List<OrderVo> getByProductNo(String productNo) {
-        Product product = productService.findBy("productNo", productNo);
         List<OrderVo> result = tOrderMapper.getByProductNo(productNo);
-        //exportToExcel(product, result);
         return result;
     }
 
     @Override
-    public List<OrderVo> getByGroupNo(String groupNo) {
-        Group group = groupService.findBy("groupNo", groupNo);
-        List<OrderVo> result = tOrderMapper.getByGroupNo(groupNo);
-        exportToExcel(group, result);
+    public List<OrderVo> getByGroup(Group group) {
+        List<OrderVo> result = tOrderMapper.getByGroupNo(group);
         return result;
     }
 
-    private void exportToExcel(Group group, List<OrderVo> result) {
+    @Override
+    public void exportToExcel(Group group, List<OrderVo> result) {
 
         // 通过工具类创建writer
         DateTime date = DateUtil.date();
         String groupName = StrUtil.replace(group.getGroupName(), "/", "-");
-        ExcelWriter writer = ExcelUtil.getWriter(parentPath + groupName + System.currentTimeMillis() + ".xlsx");
+        ExcelWriter writer = ExcelUtil.getWriter(ProjectConstant.EXPORT_PATH + File.separator + System.currentTimeMillis() + groupName + ".xlsx");
         //自定义标题别名
         writer.addHeaderAlias("buildNo", "楼栋顺序");
         writer.addHeaderAlias("sort", "配送顺序");

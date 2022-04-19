@@ -1,7 +1,7 @@
 package com.company.project.model;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_address")
 public class Address {
@@ -58,6 +58,12 @@ public class Address {
      */
     @Column(name = "lock_flag")
     private Integer lockFlag;
+
+    /**
+     * 小区编号
+     */
+    @Column(name = "village_no")
+    private String villageNo;
 
     /**
      * 获取主键ID
@@ -220,4 +226,18 @@ public class Address {
     public void setLockFlag(Integer lockFlag) {
         this.lockFlag = lockFlag;
     }
+
+    /**
+     * 小区编号
+     *
+     * @return
+     */
+    public String getVillageNo() {
+        return villageNo;
+    }
+
+    public void setVillageNo(String villageNo) {
+        this.villageNo = villageNo;
+    }
+
 }

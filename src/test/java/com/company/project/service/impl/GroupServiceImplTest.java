@@ -15,9 +15,9 @@ public class GroupServiceImplTest extends Tester {
 
     @Test
     public void testImportExcelData() {
-        Group group = groupService.importExcelData();
+        Group group = groupService.importExcelData("");
 
 
-        orderService.getByGroupNo(group.getGroupNo());
+        orderService.getByGroup(group);
     }
 }

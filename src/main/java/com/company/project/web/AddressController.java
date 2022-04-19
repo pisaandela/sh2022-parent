@@ -12,8 +12,8 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* Created by chenZiMing on 2022/04/16.
-*/
+ * Created by author on 2022/04/16.
+ */
 @RestController
 @RequestMapping("/address")
 public class AddressController {
@@ -50,5 +50,11 @@ public class AddressController {
         List<Address> list = addressService.findAll();
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @GetMapping("/getBySort/{villageNo}")
+    public Result getBySort(@PathVariable String villageNo) {
+        List<Address> result = addressService.getBySort(villageNo);
+        return ResultGenerator.genSuccessResult(result);
     }
 }

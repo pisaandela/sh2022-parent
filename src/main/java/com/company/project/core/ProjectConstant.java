@@ -1,5 +1,7 @@
 package com.company.project.core;
 
+import java.io.File;
+
 /**
  * 项目常量
  */
@@ -13,4 +15,5 @@ public final class ProjectConstant {
     public static final String CONTROLLER_PACKAGE = BASE_PACKAGE + ".web";//生成的Controller所在包
 
     public static final String MAPPER_INTERFACE_REFERENCE = BASE_PACKAGE + ".core.Mapper";//Mapper插件基础接口的完全限定名
+    public static final String EXPORT_PATH = System.getProperty("user.dir") + File.separator + "doc" + File.separator+ "temp" ;//Mapper插件基础接口的完全限定名
 }

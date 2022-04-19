@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * Created by chenZiMing on 2022/04/16.
+ * Created by author on 2022/04/16.
  */
 public interface RoomService extends Service<Room> {
     /**

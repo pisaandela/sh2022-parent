@@ -3,9 +3,11 @@ package com.company.project.web;
 import cn.hutool.core.util.StrUtil;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.model.Group;
 import com.company.project.model.Order;
 import com.company.project.model.OrderConfirmVo;
 import com.company.project.model.OrderVo;
+import com.company.project.service.GroupService;
 import com.company.project.service.OrderService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,7 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Created by chenZiMing on 2022/04/16.
+ * Created by author on 2022/04/16.
  */
 @CrossOrigin
 @RestController
@@ -27,6 +29,8 @@ import java.util.stream.Collectors;
 public class OrderController {
     @Resource
     private OrderService orderService;
+    @Resource
+    private GroupService groupService;
 
     @PostMapping
     public Result add(@RequestBody Order order) {
@@ -82,9 +86,16 @@ public class OrderController {
         });
         return ResultGenerator.genSuccessResult(result.stream().sorted(Comparator.comparing(OrderConfirmVo::getSort)).collect(Collectors.toList()));
     }
+
     @GetMapping("/getByGroupNo/{groupNo}")
     public Result getByGroupNo(@PathVariable String groupNo) {
-        List<OrderVo> list = orderService.getByGroupNo(groupNo);
+        // 查询团购数据数据
+        Group group = groupService.findBy("groupNo", groupNo);
+        // 查询订单数据
+        List<OrderVo> list = orderService.getByGroup(group);
+        // 导出excel表格
+        orderService.exportToExcel(group, list);
+        // 返回给手机端的结果数据
         List<OrderConfirmVo> result = Lists.newArrayList();
         Map<String, List<OrderVo>> collect = list.stream()
                 .collect(Collectors.groupingBy(order -> order.getSort() + "-" + order.getAddressNo() + "-" + order.getFloorNo()));

@@ -18,7 +18,7 @@ import java.util.List;
 
 
 /**
- * Created by chenZiMing on 2022/04/16.
+ * Created by author on 2022/04/16.
  */
 @Service
 @Transactional
@@ -28,8 +28,8 @@ public class ProductServiceImpl extends AbstractService<Product> implements Prod
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importExcelProductData(String filePath, Group group) {
-        ExcelReader reader = ExcelUtil.getReader(FileUtil.file(filePath), 3);
+    public void importExcelProductData(String filePath, Group group, Integer index) {
+        ExcelReader reader = ExcelUtil.getReader(FileUtil.file(filePath), index);
         List<ProductImportDto> productImportDtoList = reader.readAll(ProductImportDto.class);
         List<Product> products = Lists.newArrayList();
         productImportDtoList.forEach(dto -> {
@@ -44,7 +44,6 @@ public class ProductServiceImpl extends AbstractService<Product> implements Prod
 
         });
         this.save(products);
-        //products.forEach(System.out::println);
     }
 
     @Override

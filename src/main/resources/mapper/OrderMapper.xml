@@ -1,83 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.company.project.dao.OrderMapper">
-  <resultMap id="BaseResultMap" type="com.company.project.model.Order">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="room_id" jdbcType="BIGINT" property="roomId" />
-    <result column="group_no" jdbcType="VARCHAR" property="groupNo" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="product_count" jdbcType="INTEGER" property="productCount" />
-    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="product_no" jdbcType="VARCHAR" property="productNo" />
-    <result column="room_no" jdbcType="VARCHAR" property="roomNo" />
-    <result column="address_no" jdbcType="VARCHAR" property="addressNo" />
-    <result column="floor_no" jdbcType="VARCHAR" property="floorNo" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="get_flag" jdbcType="INTEGER" property="getFlag" />
-    <result column="pay_flag" jdbcType="INTEGER" property="payFlag" />
-      <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
-  </resultMap>
-  <select id="getByProductNo" resultType="com.company.project.model.OrderVo">
-      select d.*, e.product_name
-      from (select c.sort,
-                   b.product_no    productNo,
-                   b.address_no    addressNo,
-                   c.build_no      buildNo,
-                   b.floor_no      floorNo,
-                   b.room_no       roomNo,
-                   b.product_count productCount,
-                   b.user_phone    userPhone,
-                   b.user_name     userName,
-                   b.get_flag      getFlag,
-                   b.pay_flag      payFlag,
-                   b.remark
-            from (select a.product_no,
-                         a.address_no,
-                         a.floor_no,
-                         a.room_no,
-                         a.product_count,
-                         a.user_phone,
-                         a.user_name,
-                         a.get_flag,
-                         a.pay_flag,
-                         a.remark
-                  from t_order a
-                  where a.product_no = #{productNo}
-                 ) b
-                     left join (select ta.sort, ta.address_no, ta.build_no, ta.floor_no
-                                from t_address ta
-            ) c
-                               on b.address_no = c.address_no
-                                   and b.floor_no = c.floor_no) d
-               left join t_product e on e.product_no = d.productNo
-      order by d.sort, d.buildNo
-  </select>
+    <resultMap id="BaseResultMap" type="com.company.project.model.Order">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="room_id" jdbcType="BIGINT" property="roomId"/>
+        <result column="group_no" jdbcType="VARCHAR" property="groupNo"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="product_count" jdbcType="INTEGER" property="productCount"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="product_no" jdbcType="VARCHAR" property="productNo"/>
+        <result column="room_no" jdbcType="VARCHAR" property="roomNo"/>
+        <result column="address_no" jdbcType="VARCHAR" property="addressNo"/>
+        <result column="floor_no" jdbcType="VARCHAR" property="floorNo"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="get_flag" jdbcType="INTEGER" property="getFlag"/>
+        <result column="pay_flag" jdbcType="INTEGER" property="payFlag"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo"/>
+    </resultMap>
+    <select id="getByProductNo" resultType="com.company.project.model.OrderVo">
+        select d.*, e.product_name
+        from (select c.sort,
+                     b.product_no    productNo,
+                     b.address_no    addressNo,
+                     c.build_no      buildNo,
+                     b.floor_no      floorNo,
+                     b.room_no       roomNo,
+                     b.product_count productCount,
+                     b.user_phone    userPhone,
+                     b.user_name     userName,
+                     b.get_flag      getFlag,
+                     b.pay_flag      payFlag,
+                     b.remark
+              from (select a.product_no,
+                           a.address_no,
+                           a.floor_no,
+                           a.room_no,
+                           a.product_count,
+                           a.user_phone,
+                           a.user_name,
+                           a.get_flag,
+                           a.pay_flag,
+                           a.remark
+                    from t_order a
+                    where a.product_no = #{productNo}
+                   ) b
+                       left join (select ta.sort, ta.address_no, ta.build_no, ta.floor_no
+                                  from t_address ta
+              ) c
+                                 on b.address_no = c.address_no
+                                     and b.floor_no = c.floor_no) d
+                 left join t_product e on e.product_no = d.productNo
+        order by d.sort, d.buildNo
+    </select>
 
-    <select id="getByGroupNo" resultType="com.company.project.model.OrderVo">
-        select e.group_no groupNo,
-               e.group_date groupDate,
-               e.group_name groupName,
-               e.product_no productNo,
-               concat(e.product_name,'(',e.product_specs,')') productName,
-               e.product_specs productSpecs,
-               e.order_no orderNo,
-               e.address_no addressNo,
-               e.floor_no floorNo,
-               e.room_no roomNo,
-               e.product_count productCount,
-               e.user_phone userPhone,
-               e.user_name userName,
-               e.get_flag getFlag,
-               e.pay_flag payFlag,
-               e.remark remark,
-               f.build_no buildNo,
+    <select id="getByGroupNo" resultType="com.company.project.model.OrderVo" parameterType="com.company.project.model.Group">
+        select e.group_no                                        groupNo,
+               e.group_date                                      groupDate,
+               e.group_name                                      groupName,
+               e.product_no                                      productNo,
+               concat(e.product_name, '(', e.product_specs, ')') productName,
+               e.product_specs                                   productSpecs,
+               e.order_no                                        orderNo,
+               e.address_no                                      addressNo,
+               e.floor_no                                        floorNo,
+               e.room_no                                         roomNo,
+               e.product_count                                   productCount,
+               e.user_phone                                      userPhone,
+               e.user_name                                       userName,
+               e.get_flag                                        getFlag,
+               e.pay_flag                                        payFlag,
+               e.remark                                          remark,
+               f.build_no                                        buildNo,
                f.sort,
-               f.lock_flag lockFlag
+               f.lock_flag                                       lockFlag
         from (select c.*,
                      d.order_no,
                      d.address_no,
@@ -91,19 +91,20 @@
                      d.remark
               from (select a.*, b.product_name, b.product_no, b.product_specs
                     from (
-                        select
-                               t.group_no, t.group_date, t.group_name
-                        from
-                             t_group t
-                        where
-                              t.group_no = #{groupNo} ) a
-                        left join t_product b on a.group_no = b.group_no) c
+                             select t.group_no,
+                                    t.group_date,
+                                    t.group_name
+                             from t_group t
+                             where t.group_no = #{group.groupNo}) a
+                             left join t_product b on a.group_no = b.group_no) c
                        left join t_order d
                                  on d.group_no = c.group_no and d.product_no = c.product_no) e
-                 left join (select t.sort, t.address_no, t.build_no, t.floor_no,t.lock_flag
-                            from t_address t) f
+                 left join (select t.sort, t.address_no, t.build_no, t.floor_no, t.lock_flag
+                            from t_address t
+                            where t.village_no = #{group.villageNo}) f
                            on e.address_no = f.address_no
                                and e.floor_no = f.floor_no
-        order by f.sort, f.build_no,e.room_no
+        where f.address_no is not null
+        order by f.sort, f.build_no, e.room_no
     </select>
 </mapper>

@@ -12,5 +12,6 @@
     <result column="group_date" jdbcType="DATE" property="groupDate" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="order_count" jdbcType="INTEGER" property="orderCount" />
+    <result column="village_no" jdbcType="VARCHAR" property="villageNo"/>
   </resultMap>
 </mapper>

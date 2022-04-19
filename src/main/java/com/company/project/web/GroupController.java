@@ -12,8 +12,9 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* Created by chenZiMing on 2022/04/17.
-*/
+ * 团购信息
+ * Created by author on 2022/04/17.
+ */
 @RestController
 @RequestMapping("/group")
 public class GroupController {
@@ -52,9 +53,9 @@ public class GroupController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
-    @GetMapping("/importExcelData")
-    public Result importExcelData() {
-        Group group = groupService.importExcelData();
+    @GetMapping("/importExcelData/{excelName}")
+    public Result importExcelData(@PathVariable String excelName) {
+        Group group = groupService.importExcelData(excelName);
         return ResultGenerator.genSuccessResult(group);
     }
 }

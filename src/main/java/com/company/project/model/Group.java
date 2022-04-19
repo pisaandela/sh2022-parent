@@ -49,6 +49,12 @@ public class Group {
     private Integer orderCount;
 
     /**
+     * 小区编号
+     */
+    @Column(name = "village_no")
+    private String villageNo;
+
+    /**
      * 获取主键ID
      *
      * @return id - 主键ID
@@ -172,5 +178,19 @@ public class Group {
      */
     public void setOrderCount(Integer orderCount) {
         this.orderCount = orderCount;
+    }
+
+
+    /**
+     * 小区编号
+     *
+     * @return
+     */
+    public String getVillageNo() {
+        return villageNo;
+    }
+
+    public void setVillageNo(String villageNo) {
+        this.villageNo = villageNo;
     }
 }

@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.company.project.core.AbstractService;
+import com.company.project.core.ProjectConstant;
 import com.company.project.dao.GroupMapper;
 import com.company.project.model.Group;
 import com.company.project.service.GroupService;
@@ -20,7 +21,7 @@ import java.util.List;
 
 
 /**
- * Created by chenZiMing on 2022/04/17.
+ * Created by author on 2022/04/17.
  */
 @Service
 @Transactional
@@ -32,21 +33,24 @@ public class GroupServiceImpl extends AbstractService<Group> implements GroupSer
     @Autowired
     private OrderService orderService;
 
-
-    @Value("${excel.parent.path}")
-    private String parentPath;
-
+    /**
+     * 根据表名导入团购信息
+     *
+     * @param excelName
+     * @return
+     */
     @Override
     @Transactional
-    public Group importExcelData() {
-        String filePath = parentPath + "套餐.xlsx";
+    public Group importExcelData(String excelName) {
+        String filePath = ProjectConstant.EXPORT_PATH + File.separator + excelName + ".xlsx";
         File file = FileUtil.file(filePath);
         ExcelReader reader = ExcelUtil.getReader(file, 4);
         List<Group> groupList = reader.readAll(Group.class);
+
         Group group = groupList.get(0);
         this.save(groupList);
-        productService.importExcelProductData(filePath, group);
-        orderService.importExcelOrderData(filePath, group);
+        productService.importExcelProductData(filePath, group, 3);
+        orderService.importExcelOrderData(filePath, group, 2);
         return group;
 
     }

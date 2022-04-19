@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.company.project.dao.AddressMapper">
-  <resultMap id="BaseResultMap" type="com.company.project.model.Address">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="address_no" jdbcType="VARCHAR" property="addressNo" />
-    <result column="floor_no" jdbcType="VARCHAR" property="floorNo" />
-    <result column="room_no" jdbcType="VARCHAR" property="roomNo" />
-    <result column="user_count" jdbcType="INTEGER" property="userCount" />
-    <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="build_no" jdbcType="VARCHAR" property="buildNo" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="lock_flag" jdbcType="INTEGER" property="lockFlag" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.company.project.model.Address">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="address_no" jdbcType="VARCHAR" property="addressNo"/>
+        <result column="floor_no" jdbcType="VARCHAR" property="floorNo"/>
+        <result column="room_no" jdbcType="VARCHAR" property="roomNo"/>
+        <result column="user_count" jdbcType="INTEGER" property="userCount"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="build_no" jdbcType="VARCHAR" property="buildNo"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="lock_flag" jdbcType="INTEGER" property="lockFlag"/>
+        <result column="village_no" jdbcType="VARCHAR" property="villageNo"/>
+    </resultMap>
+    <select id="getBySort" resultType="com.company.project.model.Address">
+        select
+        t.sort, t.address_no, t.build_no, t.floor_no,t.lock_flag
+        from
+        t_address t
+        <where>t.village_no = #{villageNo}</where>
+        order by t.sort,t.build_no
+    </select>
 </mapper>

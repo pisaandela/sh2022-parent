@@ -4,7 +4,7 @@ import com.company.project.core.Service;
 
 
 /**
- * Created by chenZiMing on 2022/04/16.
+ * Created by author on 2022/04/16.
  */
 public interface RoomUserService extends Service<RoomUser> {
 
