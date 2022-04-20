@@ -129,7 +129,6 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
     public void exportToExcel(Group group, List<OrderVo> result) {
 
         // 通过工具类创建writer
-        DateTime date = DateUtil.date();
         String groupName = StrUtil.replace(group.getGroupName(), "/", "-");
         ExcelWriter writer = ExcelUtil.getWriter(ProjectConstant.EXPORT_PATH + File.separator + System.currentTimeMillis() + groupName + ".xlsx");
         //自定义标题别名

@@ -11,7 +11,6 @@ import com.company.project.service.GroupService;
 import com.company.project.service.OrderService;
 import com.company.project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +39,7 @@ public class GroupServiceImpl extends AbstractService<Group> implements GroupSer
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Group importExcelData(String excelName) {
         String filePath = ProjectConstant.EXPORT_PATH + File.separator + excelName + ".xlsx";
         File file = FileUtil.file(filePath);
@@ -48,8 +47,11 @@ public class GroupServiceImpl extends AbstractService<Group> implements GroupSer
         List<Group> groupList = reader.readAll(Group.class);
 
         Group group = groupList.get(0);
+        // 导入团购信息表
         this.save(groupList);
+        // 导入产品
         productService.importExcelProductData(filePath, group, 3);
+        // 导入订单
         orderService.importExcelOrderData(filePath, group, 2);
         return group;
 
