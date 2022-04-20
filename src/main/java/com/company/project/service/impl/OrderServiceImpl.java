@@ -77,7 +77,7 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
         String groupNo = group.getGroupNo();
         List<Product> productList = productService.findByGroup(group);
         Map<String, Product> productMap = productList.stream().collect(
-                Collectors.toMap(product -> product.getProductName() + "(" + product.getProductSpecs() + ")",
+                Collectors.toMap(product -> product.getProductName() + (StrUtil.isEmpty(product.getProductSpecs()) ? "" : "(" + product.getProductSpecs() + ")"),
                         Function.identity(),
                         (k1, k2) -> k1)
         );
