@@ -21,6 +21,8 @@
         <result column="get_flag" jdbcType="INTEGER" property="getFlag"/>
         <result column="pay_flag" jdbcType="INTEGER" property="payFlag"/>
         <result column="order_no" jdbcType="VARCHAR" property="orderNo"/>
+        <result column="member_remark" jdbcType="VARCHAR" property="memberRemark"/>
+        <result column="group_remark" jdbcType="VARCHAR" property="groupRemark"/>
     </resultMap>
     <select id="getByProductNo" resultType="com.company.project.model.OrderVo">
         select d.*, e.product_name
@@ -74,7 +76,8 @@
                e.user_name                                       userName,
                e.get_flag                                        getFlag,
                e.pay_flag                                        payFlag,
-               e.remark                                          remark,
+               e.member_remark                                          memberRemark,
+               e.group_remark                                          groupRemark,
                f.build_no                                        buildNo,
                f.sort,
                f.lock_flag                                       lockFlag
@@ -88,7 +91,8 @@
                      d.user_name,
                      d.get_flag,
                      d.pay_flag,
-                     d.remark
+                     d.member_remark,
+                     d.group_remark
               from (select a.*, b.product_name, b.product_no, b.product_specs
                     from (
                              select t.group_no,

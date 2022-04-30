@@ -1,7 +1,7 @@
 package com.company.project.model;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_order")
 public class Order {
@@ -65,7 +65,7 @@ public class Order {
      */
     @Column(name = "address_no")
     private String addressNo;
- /**
+    /**
      * 备注
      */
     @Column(name = "remark")
@@ -95,10 +95,24 @@ public class Order {
     @Column(name = "pay_flag")
     private Integer payFlag;
     /**
-     * 是否付款
+     * 跟团单号
      */
     @Column(name = "order_no")
     private String orderNo;
+
+    /**
+     * 团长备注
+     */
+    @Column(name = "member_remark")
+    private String memberRemark;
+
+    /**
+     * 是否付款
+     */
+    @Column(name = "group_remark")
+    private String groupRemark;
+
+
     /**
      * 获取主键ID
      *
@@ -357,5 +371,22 @@ public class Order {
 
     public String getOrderNo() {
         return orderNo;
+    }
+
+
+    public String getMemberRemark() {
+        return memberRemark;
+    }
+
+    public void setMemberRemark(String memberRemark) {
+        this.memberRemark = memberRemark;
+    }
+
+    public String getGroupRemark() {
+        return groupRemark;
+    }
+
+    public void setGroupRemark(String groupRemark) {
+        this.groupRemark = groupRemark;
     }
 }

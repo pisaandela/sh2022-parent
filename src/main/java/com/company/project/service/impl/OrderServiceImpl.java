@@ -1,7 +1,5 @@
 package com.company.project.service.impl;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
@@ -13,7 +11,6 @@ import com.company.project.dao.OrderMapper;
 import com.company.project.model.*;
 import com.company.project.service.*;
 import org.apache.commons.compress.utils.Lists;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,6 +90,8 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
             String productNo = productMap.get(productName).getProductNo();
             String orderNo = dto.getOrderNo();
             Integer productCount = dto.getProductCount();
+            String memberRemark = dto.getMemberRemark();
+            String groupRemark = dto.getGroupRemark();
 
             Order order = new Order();
             order.setGroupNo(groupNo);
@@ -105,6 +104,8 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
             order.setRoomNo(roomNo);
             order.setProductNo(productNo);
             //phoneUserSet.add(dto);
+            order.setMemberRemark(memberRemark);
+            order.setGroupRemark(groupRemark);
 
             orders.add(order);
 
@@ -143,12 +144,14 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
         writer.addHeaderAlias("userName", "姓名");
         writer.addHeaderAlias("getFlag", "是否送达");
         writer.addHeaderAlias("lockFlag", "封控类型");
+        writer.addHeaderAlias("memberRemark", "团员备注");
+        writer.addHeaderAlias("groupRemark", "团长备注");
 
         // 默认的，未添加alias的属性也会写出，如果想只写出加了别名的字段，可以调用此方法排除之
         writer.setOnlyAlias(true);
 
         // 合并单元格后的标题行，使用默认标题样式
-        writer.merge(10, groupName + ": " + group.getProductCount() + "份");
+        writer.merge(12, groupName + ": " + group.getProductCount() + "份");
         // 一次性写出内容，使用默认样式，强制输出标题
         writer.write(result, true);
         // 关闭writer，释放内存

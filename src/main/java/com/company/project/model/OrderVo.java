@@ -90,4 +90,13 @@ public class OrderVo implements Serializable {
      * 备注
      */
     private String productName;
+
+    /**
+     * 团员备注
+     */
+    private String memberRemark;
+    /**
+     * 团长备注
+     */
+    private String groupRemark;
 }
