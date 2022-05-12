@@ -146,12 +146,13 @@ public class OrderServiceImpl extends AbstractService<Order> implements OrderSer
         writer.addHeaderAlias("lockFlag", "封控类型");
         writer.addHeaderAlias("memberRemark", "团员备注");
         writer.addHeaderAlias("groupRemark", "团长备注");
+        writer.addHeaderAlias("orderNo", "跟团编号");
 
         // 默认的，未添加alias的属性也会写出，如果想只写出加了别名的字段，可以调用此方法排除之
         writer.setOnlyAlias(true);
 
         // 合并单元格后的标题行，使用默认标题样式
-        writer.merge(12, groupName + ": " + group.getProductCount() + "份");
+        writer.merge(13, groupName + ": " + group.getProductCount() + "份");
         // 一次性写出内容，使用默认样式，强制输出标题
         writer.write(result, true);
         // 关闭writer，释放内存
